@@ -20,6 +20,7 @@ from app.gateway.routers import (
     thread_runs,
     threads,
     uploads,
+    user_models,
 )
 from deerflow.config.app_config import get_app_config
 
@@ -189,6 +190,9 @@ This gateway provides custom endpoints for models, MCP configuration, skills, an
 
     # Agents API is mounted at /api/agents
     app.include_router(agents.router)
+
+    # User Model Configuration API is mounted at /api/user-models
+    app.include_router(user_models.router)
 
     # Suggestions API is mounted at /api/threads/{thread_id}/suggestions
     app.include_router(suggestions.router)

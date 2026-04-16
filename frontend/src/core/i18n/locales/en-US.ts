@@ -325,6 +325,7 @@ export const enUS: Translations = {
     description: "Adjust how DeerFlow looks and behaves for you.",
     sections: {
       appearance: "Appearance",
+      models: "Models",
       memory: "Memory",
       tools: "Tools",
       skills: "Skills",
@@ -422,6 +423,21 @@ export const enUS: Translations = {
       darkDescription: "Dim palette that reduces glare for focus.",
       languageTitle: "Language",
       languageDescription: "Switch between languages.",
+    },
+    models: {
+      title: "Models",
+      description: "Configure your AI model providers and manage API keys.",
+      apiKeysTitle: "API Keys",
+      apiKeysDescription:
+        "Configure API keys for different model providers to enable their models.",
+      userModelsTitle: "Your Models",
+      userModelsDescription: "Models you've configured for this project.",
+      addAPIKey: "Add API Key",
+      addAPIKeyTitle: "Add API Key",
+      addAPIKeyDescription: "Configure a new provider's API key",
+      selectProvider: "Select a provider",
+      addModel: "Add Model",
+      confirmDelete: "Confirm Deletion",
     },
     tools: {
       title: "Tools",

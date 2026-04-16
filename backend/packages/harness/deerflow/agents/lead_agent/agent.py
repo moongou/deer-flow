@@ -36,6 +36,18 @@ def _resolve_model_name(requested_model_name: str | None = None) -> str:
     if requested_model_name and app_config.get_model_config(requested_model_name):
         return requested_model_name
 
+    # Try to resolve as a user-configured model (format: "user:{provider}/{model_id}")
+    if requested_model_name and requested_model_name.startswith("user:"):
+        from deerflow.config.user_models_resolver import build_user_model_config
+
+        user_model_cfg = build_user_model_config(requested_model_name)
+        if user_model_cfg is not None:
+            # Inject into app_config.models so factory.create_chat_model can find it
+            if not any(m.name == requested_model_name for m in app_config.models):
+                app_config.models.insert(0, user_model_cfg)
+                logger.info("Injected user-configured model '%s' into runtime config.", requested_model_name)
+            return requested_model_name
+
     if requested_model_name and requested_model_name != default_model_name:
         logger.warning(f"Model '{requested_model_name}' not found in config; fallback to default model '{default_model_name}'.")
     return default_model_name

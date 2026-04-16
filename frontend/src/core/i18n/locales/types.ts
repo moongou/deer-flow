@@ -254,11 +254,26 @@ export interface Translations {
     description: string;
     sections: {
       appearance: string;
+      models?: string;
       memory: string;
       tools: string;
       skills: string;
       notification: string;
       about: string;
+    };
+    models?: {
+      title: string;
+      description: string;
+      apiKeysTitle: string;
+      apiKeysDescription: string;
+      userModelsTitle: string;
+      userModelsDescription: string;
+      addAPIKey: string;
+      addAPIKeyTitle: string;
+      addAPIKeyDescription: string;
+      selectProvider: string;
+      addModel: string;
+      confirmDelete: string;
     };
     memory: {
       title: string;

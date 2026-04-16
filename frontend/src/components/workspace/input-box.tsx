@@ -89,7 +89,9 @@ function getResolvedMode(
   mode: InputMode | undefined,
   supportsThinking: boolean,
 ): InputMode {
-  if (!supportsThinking && mode !== "flash") {
+  // Only "thinking" mode specifically requires model-level thinking support.
+  // "pro" and "ultra" use planning/subagents and work with any model.
+  if (!supportsThinking && mode === "thinking") {
     return "flash";
   }
   if (mode) {

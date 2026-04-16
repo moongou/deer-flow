@@ -1,0 +1,35 @@
+{
+  "provider_overrides": {
+    "ollama": {
+      "api_key": "",
+      "base_url": null,
+      "enabled": false,
+      "extra_models": [],
+      "active_model": "gemma4:31b"
+    },
+    "doubao": {
+      "api_key": "",
+      "base_url": null,
+      "enabled": false,
+      "extra_models": [],
+      "active_model": "doubao-1-5-lite-32k-250115"
+    },
+    "ollama-remote": {
+      "api_key": "ba1ba21069ee4553b59fe1ff6bd3e3e2.20I8JW0VeUVwp_ZEX_GvF4Ta",
+      "base_url": "https://ollama.com/v1",
+      "enabled": true,
+      "extra_models": [],
+      "active_model": "deepseek-v3.2"
+    }
+  },
+  "custom_providers": {},
+  "active_provider": "ollama-remote",
+  "active_model": "deepseek-v3.2",
+  "enabled_local_services": [
+    "openai-edge-tts",
+    "funasr-http",
+    "mineru",
+    "ollama",
+    "cosyvoice"
+  ]
+}

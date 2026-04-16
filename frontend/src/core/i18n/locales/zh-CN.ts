@@ -310,6 +310,7 @@ export const zhCN: Translations = {
     description: "根据你的偏好调整 DeerFlow 的界面和行为。",
     sections: {
       appearance: "外观",
+      models: "模型",
       memory: "记忆",
       tools: "工具",
       skills: "技能",
@@ -404,6 +405,21 @@ export const zhCN: Translations = {
       darkDescription: "更暗的配色，减少眩光方便专注。",
       languageTitle: "语言",
       languageDescription: "在不同语言之间切换。",
+    },
+    models: {
+      title: "模型",
+      description: "配置你的 AI 模型供应商并管理 API 密钥",
+      apiKeysTitle: "API 密钥",
+      apiKeysDescription:
+        "为不同的模型供应商配置 API 密钥，以启用他们的模型。",
+      userModelsTitle: "你的模型",
+      userModelsDescription: "你为这个项目配置的模型。",
+      addAPIKey: "添加 API 密钥",
+      addAPIKeyTitle: "添加 API 密钥",
+      addAPIKeyDescription: "为新的供应商配置 API 密钥",
+      selectProvider: "选择一个供应商",
+      addModel: "添加模型",
+      confirmDelete: "确认删除",
     },
     tools: {
       title: "工具",

@@ -1,7 +1,80 @@
+import json
+import logging
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from deerflow.config import get_app_config
+
+logger = logging.getLogger(__name__)
+
+_USER_CONFIG_FILE = Path("user_models_config.json")
+
+# Minimal provider display info keyed by provider id
+_PROVIDER_NAMES: dict[str, str] = {
+    "openai": "OpenAI",
+    "anthropic": "Anthropic",
+    "google": "Google Gemini",
+    "groq": "Groq",
+    "openrouter": "OpenRouter",
+    "together": "Together AI",
+    "deepseek": "DeepSeek",
+    "qwen": "通义千问",
+    "doubao": "豆包",
+    "kimi": "Kimi/Moonshot",
+    "zhipu": "智谱 GLM",
+    "yi": "零一万物",
+    "minimax": "MiniMax",
+    "stepfun": "阶跃星辰",
+    "baichuan": "百川 AI",
+    "hunyuan": "混元",
+    "302ai": "302.AI",
+    "ollama": "Ollama",
+    "ollama-remote": "Ollama Remote",
+    "lmstudio": "LM Studio",
+}
+
+
+def _get_user_active_model_responses() -> list["ModelResponse"]:
+    """Return all user-activated models that should appear in the frontend selector."""
+    if not _USER_CONFIG_FILE.exists():
+        return []
+    try:
+        cfg = json.loads(_USER_CONFIG_FILE.read_text())
+        seen: set[str] = set()
+        responses: list[ModelResponse] = []
+
+        def append_model(provider_id: str | None, model_id: str | None) -> None:
+            if not provider_id or not model_id:
+                return
+            name = f"user:{provider_id}/{model_id}"
+            if name in seen:
+                return
+            seen.add(name)
+            provider_name = _PROVIDER_NAMES.get(provider_id, provider_id)
+            responses.append(
+                ModelResponse(
+                    name=name,
+                    model=model_id,
+                    display_name=f"{provider_name}: {model_id}",
+                    description="已激活到前端，可在模型选择器中使用",
+                )
+            )
+
+        active_provider = cfg.get("active_provider")
+        active_model = cfg.get("active_model")
+
+        append_model(active_provider, active_model)
+
+        for provider_id, override in cfg.get("provider_overrides", {}).items():
+            append_model(provider_id, override.get("active_model"))
+
+        return responses
+    except Exception as exc:
+        logger.debug("Could not load user active models: %s", exc)
+        return []
+
 
 router = APIRouter(prefix="/api", tags=["models"])
 
@@ -84,6 +157,12 @@ async def list_models() -> ModelsListResponse:
         )
         for model in config.models
     ]
+
+    # Prepend user-activated models so they are immediately selectable in the frontend.
+    for user_model in reversed(_get_user_active_model_responses()):
+        if not any(m.name == user_model.name for m in models):
+            models.insert(0, user_model)
+
     return ModelsListResponse(
         models=models,
         token_usage=TokenUsageResponse(enabled=config.token_usage.enabled),
